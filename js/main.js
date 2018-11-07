@@ -1,8 +1,9 @@
 let restaurants,
   neighborhoods,
-  cuisines
-var newMap
-var markers = []
+  cuisines;
+var newMap;
+var markers = [];
+var restsw = new app_sw();
 
 /**
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
@@ -11,6 +12,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
   initMap(); // added 
   fetchNeighborhoods();
   fetchCuisines();
+
 });
 
 /**
@@ -78,14 +80,14 @@ initMap = () => {
         scrollWheelZoom: false
       });
   L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.jpg70?access_token={mapboxToken}', {
-    mapboxToken: '<your MAPBOX API KEY HERE>',
+    mapboxToken: 'pk.eyJ1IjoiY2NuYW5vZmQiLCJhIjoiY2puYnFkNzA2MDZwNDNxbDhqaWF0ZjAzOSJ9.9lu1xNRICszpVsrBZNAebA',
     maxZoom: 18,
     attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
       '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
       'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
     id: 'mapbox.streets'
   }).addTo(newMap);
-
+  document.getElementById('map').setAttribute('tabindex','-1');
   updateRestaurants();
 }
 /* window.initMap = () => {
@@ -157,10 +159,11 @@ fillRestaurantsHTML = (restaurants = self.restaurants) => {
  */
 createRestaurantHTML = (restaurant) => {
   const li = document.createElement('li');
-
   const image = document.createElement('img');
   image.className = 'restaurant-img';
   image.src = DBHelper.imageUrlForRestaurant(restaurant);
+  image.alt = 'Sample food picture for ' + restaurant.name;
+  image.setAttribute('tabindex','0');
   li.append(image);
 
   const name = document.createElement('h1');
@@ -173,11 +176,14 @@ createRestaurantHTML = (restaurant) => {
 
   const address = document.createElement('p');
   address.innerHTML = restaurant.address;
+  address.setAttribute('tabindex', '0');
   li.append(address);
 
   const more = document.createElement('a');
   more.innerHTML = 'View Details';
   more.href = DBHelper.urlForRestaurant(restaurant);
+  more.setAttribute('role','button');
+  more.setAttribute('aria-label', 'Click to get restaurant details for ' + restaurant.name);
   li.append(more)
 
   return li
