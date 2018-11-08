@@ -11,7 +11,7 @@
 
 ## Purpose
 
-This site integrates a map API from MapBox to display restaurant locations. It tracks the cuisine type, address and reviews for select restaurants (in a specified .json file). The key goals of the project are to create a responsive design that will work across many devices of varying display size, and also to begin using a service worker concept to provide better user experience (aka cache resources so that some data is still viewable even if offline).
+This site integrates a map API from MapBox to display restaurant locations. It tracks the cuisine type, address and reviews for select restaurants (in a specified .json file). The key goals of the project are: responsive design, offline experience, and ARIA features (for screen readers). The responsive design should work across many devices of varying display size. Pages, at least most content, should be displayed if going offline after the initial load. Aria attributes as well as deliberate keyboard navigation is used for the visually challenged.
 
 ## Instructions
 
